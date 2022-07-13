@@ -2,7 +2,7 @@ import Crud from "../model/crud.js"
 
 
 export const GetAllData = async (req,res)=>{
-   await Crud.findAll({attributes:["name","Message"]}).then((response)=>{
+   await Crud.findAll().then((response)=>{
         res.json(response)
     }).catch((error)=>{
         res.json(error)

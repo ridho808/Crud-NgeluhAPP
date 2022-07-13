@@ -1,6 +1,7 @@
 import {Sequelize} from "sequelize";
-
-const db = new Sequelize("crud_db","root","",{
+import dotenv from 'dotenv'
+dotenv.config();
+const db = new Sequelize(process.env.NAME_DB,process.env.USER,process.env.PASSWORD,{
     host:"localhost",
     dialect:"mysql"
 });

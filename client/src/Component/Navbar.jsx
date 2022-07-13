@@ -1,18 +1,50 @@
 import React,{Component} from 'react';
-import {AiFillHome,AiFillInfoCircle,AiOutlinePlus} from "react-icons/ai";
+import {AiOutlineMenu,AiOutlineClose} from "react-icons/ai";
+import { Link } from 'react-router-dom';
 class Navbar extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            Navigasi : false
+        }
+        this.NavMobile = this.NavMobile.bind (this);
+    }
+    NavMobile(){
+        this.setState({Navigasi : !this.state.Navigasi})
+    }
+    componentDidMount(){
+        this.NavMobile()
+    }
     render(){
         return(
-            <nav className='fixed w-full flex justify-between z-50'>
-                <div className='fixed h-16 top-0 w-full backdrop-blur-xl flex flex-row justify-between items-center bg-black/40'>
-                    <h1 className='text-3xl text-center w-full text-black font-bold'>NGELH</h1>
+           <div className='flex max-w-[890px] mx-auto h-16 border-b-2 border-black'>
+                <div className='flex flex-row justify-between w-full h-full items-center z-0 bg-white'>
+                    <Link to={'/'} className='text-2xl p-3 text-black font-bold'></Link>
+                    <ul className='hidden sm:flex flex-row justify-evenly p-3'>
+                        <li className='p-4 font-bold'>
+                            <Link to={'/'}>HOME</Link>
+                        </li>
+                        <li className='p-4 font-bold'>
+                            <Link to={'/'}>ABOUT</Link>
+                        </li>
+                    </ul>
+                    <div className='flex p-3 sm:hidden' onClick={this.NavMobile}>
+                        {this.state.Navigasi ? <AiOutlineMenu size={25} fill="black"/> : <AiOutlineClose size={25} fill='black'/>}
+                    </div>  
                 </div>
-                <ul className='fixed h-16 flex justify-evenly w-full bottom-0 rounded-tl-[15px] rounded-tr-[15px] backdrop-blur-xl bg-black/40'>
-                    <li className='p-3 mx-3'><AiFillHome size={40} fill='black'/></li>
-                    <li className='p-2 absolute bottom-9 bg-[#db1415] rounded-[360px] '> <AiOutlinePlus size={40} fill="white"/> </li>
-                    <li className='p-3 mx-3'><AiFillInfoCircle size={40} fill='black'/></li>
-                </ul> 
-            </nav>
+                <div className={this.state.Navigasi ? 'hidden' : " absolute left-0 top-0 w-[40%] bg-white h-screen sm:hidden z-50"}>
+                    <div className='flex flex-col'>
+                        <h1 className='text-2xl text-black border-b-2 border-black p-3 h-16 pt-4 font-bold'>NGEBPR</h1>
+                        <ul className='flex flex-col justify-evenly w-full'>
+                            <li className='text-2xl p-4'>
+                                <Link to={'/'}>HOME</Link>
+                            </li>
+                            <li className='text-2xl p-4'>ABOUT</li>
+                        </ul>
+                    </div>
+                </div>
+           </div>
+           
         )
     }
 }

@@ -1,7 +1,9 @@
 import React,{Component} from 'react';
 import Axios from 'axios';
 import Navbar from '../Component/Navbar';
-
+import { AiOutlinePlus } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
+import '../home.module.css'
 class Home extends Component{
     constructor(props){
         super(props);
@@ -9,36 +11,47 @@ class Home extends Component{
             Post: [{}]
         }
     }
+    GetData(){
+        Axios({
+            method: 'get',
+            url :'http://localhost:3033/'
+        }).then((response) => {
+            const Post = response.data ;
+            this.setState({Post})
+        }).catch((err)=>err)
+    }
     componentDidMount(){
-        Axios.get('http://localhost:3033/').then((response)=>{
-            const User = response;
-            this.setState({Post : User.data})
-        }).catch(error => {
-            return error
-        })
+        this.GetData()
     }
     render(){
         return(
             <>
                 <header>
-                    <Navbar/>
+                    <nav>
+                        <Navbar/>
+                    </nav>
                 </header>
-                <main className='overflow-auto pt-[4em] h-[650px]'>
+                <main className='overflow-auto pt-[4em] h-[630px]'>
                     {
-                        this.state.Post.map((response,i) => {
+                        this.state.Post.reverse().map((response,i) => {
                             return (
-                                <div key={i} className='max-w-[250px] h-[200px] mx-auto flex flex-col m-3 bg-neutral-300 rounded-[30px]'>
+                                <Link to={`/see/${response.id}`} key={i} className='max-w-[250px]  mx-auto flex flex-col m-3 bg-neutral-300 rounded-[30px] sm:max-w-[500px]'>
                                     <div className='flex flex-col justify-evenly items-center text-center mb-2'>
                                     <img src="https://img.icons8.com/ios-filled/240/000000/user.png" className='object-cover w-[50px] h-[50px]' alt="foo"/>
-                                    <h1 className='text-black'>Anonim</h1>
+                                    <h1 className='text-black underline'>{response.name}</h1>
                                     </div>
-                                    <p className='text-center text-sm text-black'>
-                                        "{response.Message}"
+                                    <p className='text-center text-sm text-black p-2'>
+                                        ` {response.Message} `
                                     </p>
-                                </div>
+                                </Link>
                             )
                         })
                     }
+                    <div className='fixed bottom-1 h-12 flex justify-center w-full'>
+                        <Link to={'/AddFeed'} className='w-[50px] flex justify-center items-center rounded-[360px] transition ease-in-out delay-150 bg-neutral-900 hover:-translate-y-1 hover:scale-110 hover:bg-neutral-700 duration-300'>
+                            <AiOutlinePlus size={35} fill="white"/>
+                        </Link>
+                    </div>
                 </main>
                 <footer>
 
